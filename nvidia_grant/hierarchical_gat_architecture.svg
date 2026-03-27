@@ -1,0 +1,188 @@
+<svg width="100%" viewBox="0 0 680 1080" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <style>
+    text { font-family: sans-serif; fill: #1a1a1a; }
+    .th { font-size: 13px; font-weight: 600; }
+    .ts { font-size: 11px; font-weight: 400; fill: #444; }
+    .label { font-size: 11px; font-weight: 500; fill: #666; }
+    .coral-box { fill: #fbe9e4; stroke: #c05030; stroke-width: 0.5; }
+    .purple-box { fill: #eeedfe; stroke: #5340b0; stroke-width: 0.5; }
+    .teal-box { fill: #e0f5ee; stroke: #0f6e56; stroke-width: 0.5; }
+    .blue-box { fill: #e4f0fa; stroke: #1860a5; stroke-width: 0.5; }
+    .amber-box { fill: #faeeda; stroke: #854f0b; stroke-width: 0.5; }
+    .green-box { fill: #eaf3de; stroke: #3b6d11; stroke-width: 0.5; }
+    .red-box { fill: #fcebeb; stroke: #a32d2d; stroke-width: 0.5; }
+    .gray-box { fill: #f2f0ea; stroke: #5f5e5a; stroke-width: 0.5; }
+    .section { fill: none; stroke: #bbb; stroke-width: 0.8; stroke-dasharray: 5 3; }
+    .arr-line { stroke: #666; stroke-width: 1; fill: none; }
+    .dash-line { stroke: #999; stroke-width: 0.8; fill: none; stroke-dasharray: 4 3; }
+  </style>
+</defs>
+
+<!-- ═══ SECTION 1: API SESSIONS ═══ -->
+<rect x="20" y="12" width="640" height="96" rx="10" class="section"/>
+<text class="label" x="34" y="27">LLM API sessions — adversary fragments harmful goal across independent sessions</text>
+
+<rect x="36" y="34" width="118" height="62" rx="6" class="coral-box"/>
+<text class="th" x="95" y="60" text-anchor="middle">Session A</text>
+<text class="ts" x="95" y="77" text-anchor="middle">"network topology?"</text>
+
+<rect x="174" y="34" width="118" height="62" rx="6" class="coral-box"/>
+<text class="th" x="233" y="60" text-anchor="middle">Session B</text>
+<text class="ts" x="233" y="77" text-anchor="middle">"auth mechanisms?"</text>
+
+<rect x="312" y="34" width="118" height="62" rx="6" class="coral-box"/>
+<text class="th" x="371" y="60" text-anchor="middle">Session C</text>
+<text class="ts" x="371" y="77" text-anchor="middle">"exploit patterns?"</text>
+
+<rect x="450" y="34" width="196" height="62" rx="6" class="gray-box"/>
+<text class="th" x="548" y="56" text-anchor="middle">Stateless classifier</text>
+<text class="ts" x="548" y="73" text-anchor="middle">each msg: ✓ benign</text>
+<line x1="454" y1="38" x2="642" y2="92" stroke="#c03030" stroke-width="1.2" opacity="0.6"/>
+<line x1="642" y1="38" x2="454" y2="92" stroke="#c03030" stroke-width="1.2" opacity="0.6"/>
+<text class="ts" x="548" y="92" text-anchor="middle" style="fill:#c03030">blind spot</text>
+
+<!-- Arrows down to fingerprint -->
+<line x1="95" y1="96" x2="95" y2="128" class="arr-line" marker-end="url(#arrow)"/>
+<line x1="233" y1="96" x2="233" y2="128" class="arr-line" marker-end="url(#arrow)"/>
+<line x1="371" y1="96" x2="371" y2="128" class="arr-line" marker-end="url(#arrow)"/>
+
+<!-- ═══ SECTION 2: LINKAGE ═══ -->
+<rect x="20" y="128" width="450" height="82" rx="10" class="section"/>
+<text class="label" x="34" y="143">Session linkage layer</text>
+
+<rect x="36" y="150" width="190" height="50" rx="6" class="purple-box"/>
+<text class="th" x="131" y="171" text-anchor="middle">Fingerprinting</text>
+<text class="ts" x="131" y="188" text-anchor="middle">IP · ASN · cadence · MinHash/LSH</text>
+
+<rect x="246" y="150" width="210" height="50" rx="6" class="purple-box"/>
+<text class="th" x="351" y="171" text-anchor="middle">Entity resolution</text>
+<text class="ts" x="351" y="188" text-anchor="middle">NER · concept chain · neg. resolution</text>
+
+<line x1="230" y1="210" x2="230" y2="242" class="arr-line" marker-end="url(#arrow)"/>
+
+<!-- ═══ SECTION 3: LEVEL 1 ═══ -->
+<rect x="20" y="242" width="640" height="268" rx="10" class="section"/>
+<text class="label" x="34" y="257">Level 1 — Intra-session GAT (runs on every session independently)</text>
+<text class="ts" x="34" y="275" style="fill:#888">Graph G_s = (V,E)  nodes = messages  ·  ROLAND incremental: GRU node state update on each new message</text>
+
+<!-- Three edge types -->
+<rect x="36" y="282" width="180" height="72" rx="6" class="teal-box"/>
+<text class="th" x="126" y="304" text-anchor="middle">Temporal edges</text>
+<text class="ts" x="126" y="321" text-anchor="middle">GLL-learned adjacency Φ</text>
+<text class="ts" x="126" y="337" text-anchor="middle">upper-triangular causal mask</text>
+<text class="ts" x="126" y="350" text-anchor="middle" style="fill:#0f6e56">[DGNet GLL]</text>
+
+<rect x="236" y="282" width="200" height="72" rx="6" class="teal-box"/>
+<text class="th" x="336" y="304" text-anchor="middle">Entity-relation edges</text>
+<text class="ts" x="336" y="321" text-anchor="middle">GraphRAG NER triples</text>
+<text class="ts" x="336" y="337" text-anchor="middle">action-type conditioned · O(n)</text>
+<text class="ts" x="336" y="350" text-anchor="middle" style="fill:#0f6e56">[G-Guard]</text>
+
+<rect x="456" y="282" width="188" height="72" rx="6" class="teal-box"/>
+<text class="th" x="550" y="304" text-anchor="middle">Top-k attention edges</text>
+<text class="ts" x="550" y="321" text-anchor="middle">frozen encoder attn matrix</text>
+<text class="ts" x="550" y="337" text-anchor="middle">O(n·k) · implicit deps</text>
+<text class="ts" x="550" y="350" text-anchor="middle" style="fill:#0f6e56">[GuardNet]</text>
+
+<!-- GAT block -->
+<rect x="36" y="366" width="608" height="50" rx="8" class="blue-box"/>
+<text class="th" x="340" y="386" text-anchor="middle">4-layer · 8-head relation-aware GAT  (RA-GAT)</text>
+<text class="ts" x="340" y="404" text-anchor="middle">each edge type → own attention channel  ·  gated residual H^l = g(f(H^l-1)) + H^l-1 prevents over-smoothing  [DGNet]  ·  [RAG-HIDS]</text>
+
+<!-- Training signals -->
+<rect x="36" y="428" width="608" height="68" rx="6" class="gray-box"/>
+<text class="th" x="340" y="446" text-anchor="middle">Training signals (Level 1)</text>
+<text class="ts" x="200" y="462" text-anchor="middle">① Self-supervised: predict next entity</text>
+<text class="ts" x="510" y="462" text-anchor="middle">② DGNet aux forecast: predict next msg embedding</text>
+<text class="ts" x="340" y="478" text-anchor="middle">→ forces model to learn attack narrative structure and causal intent trajectory</text>
+<text class="ts" x="340" y="493" text-anchor="middle" style="fill:#888">Output: h_s (mean + max pool)  +  session risk score  +  focal loss training [GuardNet]</text>
+
+<!-- ═══ EVENT-DRIVEN TRIGGER ═══ -->
+<rect x="20" y="520" width="640" height="82" rx="10" class="section"/>
+<text class="label" x="34" y="535">Level 1 → Level 2 handoff — event-driven (not time-based)</text>
+
+<rect x="36" y="542" width="182" height="48" rx="6" class="amber-box"/>
+<text class="th" x="127" y="561" text-anchor="middle">① Cumulative score</text>
+<text class="ts" x="127" y="578" text-anchor="middle">Σ score(sᵢ) &gt; τ_campaign</text>
+
+<rect x="236" y="542" width="182" height="48" rx="6" class="amber-box"/>
+<text class="th" x="327" y="561" text-anchor="middle">② Session count</text>
+<text class="ts" x="327" y="578" text-anchor="middle">K+ sessions flagged in cluster</text>
+
+<rect x="436" y="542" width="208" height="48" rx="6" class="amber-box"/>
+<text class="th" x="540" y="561" text-anchor="middle">③ Entity overlap</text>
+<text class="ts" x="540" y="578" text-anchor="middle">2+ sessions share resolved entity</text>
+
+<text class="ts" x="340" y="607" text-anchor="middle" style="fill:#888">24hr fallback for slow campaigns  ·  adversary must evade all three simultaneously</text>
+
+<line x1="340" y1="612" x2="340" y2="642" class="arr-line" marker-end="url(#arrow)"/>
+
+<!-- ═══ SECTION 4: LEVEL 2 ═══ -->
+<rect x="20" y="642" width="640" height="208" rx="10" class="section"/>
+<text class="label" x="34" y="657">Level 2 — Cross-session campaign GAT (triggered clusters only)</text>
+
+<rect x="36" y="664" width="182" height="64" rx="6" class="purple-box"/>
+<text class="th" x="127" y="684" text-anchor="middle">Fingerprint edges</text>
+<text class="ts" x="127" y="701" text-anchor="middle">confidence-weighted</text>
+<text class="ts" x="127" y="716" text-anchor="middle">same attacker hypothesis</text>
+
+<rect x="236" y="664" width="192" height="64" rx="6" class="purple-box"/>
+<text class="th" x="332" y="684" text-anchor="middle">Entity overlap edges</text>
+<text class="ts" x="332" y="701" text-anchor="middle">primary signal</text>
+<text class="ts" x="332" y="716" text-anchor="middle">immune to padding by design</text>
+
+<rect x="446" y="664" width="198" height="64" rx="6" class="purple-box"/>
+<text class="th" x="545" y="684" text-anchor="middle">Temporal proximity</text>
+<text class="ts" x="545" y="701" text-anchor="middle">weak auxiliary only</text>
+<text class="ts" x="545" y="716" text-anchor="middle">small learnable weight</text>
+
+<!-- Level 2 GAT -->
+<rect x="36" y="740" width="608" height="44" rx="8" class="blue-box"/>
+<text class="th" x="340" y="759" text-anchor="middle">2–3 layer · 4–6 head relation-aware GAT  ·  nodes = h_s + metadata</text>
+<text class="ts" x="340" y="776" text-anchor="middle">ROLAND incremental session node insertion as new sessions arrive</text>
+
+<!-- Training -->
+<rect x="36" y="796" width="608" height="44" rx="6" class="gray-box"/>
+<text class="th" x="340" y="813" text-anchor="middle">Two-stage training (confirmed)</text>
+<text class="ts" x="340" y="830" text-anchor="middle">① Contrastive pretraining: same-campaign sessions cluster · ② Freeze GAT → supervised MLP head · joint L = L_sup + λL_contrast as ablation</text>
+
+<line x1="340" y1="850" x2="340" y2="878" class="arr-line" marker-end="url(#arrow)"/>
+
+<!-- ═══ SECTION 5: RISK SCORING ═══ -->
+<rect x="20" y="878" width="640" height="114" rx="10" class="section"/>
+<text class="label" x="34" y="893">Risk scoring + triage</text>
+
+<rect x="36" y="900" width="606" height="40" rx="6" class="gray-box"/>
+<text class="th" x="339" y="917" text-anchor="middle">MLP head: h_s′ → Linear(d,d/2) → ReLU → Dropout(0.3) → Linear(d/2,1) → Sigmoid → P(malicious) ∈ [0,1]</text>
+<text class="ts" x="339" y="933" text-anchor="middle">Temperature scaling post-training: P = σ(logit/T)  ·  T fitted on held-out validation  ·  raw sigmoid is overconfident</text>
+
+<rect x="36" y="952" width="178" height="30" rx="6" class="green-box"/>
+<text class="th" x="125" y="972" text-anchor="middle">Low → log only</text>
+
+<rect x="234" y="952" width="196" height="30" rx="6" class="amber-box"/>
+<text class="th" x="332" y="972" text-anchor="middle">Medium → human review</text>
+
+<rect x="450" y="952" width="192" height="30" rx="6" class="red-box"/>
+<text class="th" x="546" y="972" text-anchor="middle">High → auto-block</text>
+
+<!-- Adversarial loop -->
+<line x1="655" y1="968" x2="662" y2="968" class="dash-line"/>
+<line x1="662" y1="968" x2="662" y2="780" class="dash-line"/>
+<line x1="662" y1="780" x2="646" y2="780" class="dash-line" marker-end="url(#arrow)"/>
+<text class="ts" x="674" y="880" text-anchor="middle" transform="rotate(90 674 880)" style="fill:#aaa">adversarial reformulator loop</text>
+
+<!-- Footer attributions -->
+<text class="ts" x="340" y="1012" text-anchor="middle" style="fill:#aaa">RAG-HIDS: hierarchical design · G-Guard: entity-relation edges · GuardNet: top-k attn edges + focal loss · ROLAND: incremental node states · DGNet: GLL temporal adj + gated residual + aux forecasting head</text>
+
+<!-- Explainability note -->
+<text class="ts" x="340" y="1030" text-anchor="middle" style="fill:#888">Explainability: top-k attention edges surfaced to analysts · sessions not reaching Level 2 → auto low risk score</text>
+
+<!-- Padding defense callout -->
+<rect x="36" y="1042" width="608" height="26" rx="6" style="fill:#f8f6f0; stroke:#bbb; stroke-width:0.5;"/>
+<text class="ts" x="340" y="1058" text-anchor="middle" style="fill:#666">Padding defense: k ~ U(k_min,k_max) random window sampling at Level 1  ·  Level 2 entity overlap edges structurally immune to padding  ·  evaluate N=0..50 ablation</text>
+
+</svg>
